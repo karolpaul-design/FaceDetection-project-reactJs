@@ -10,6 +10,9 @@ import SignIn from "./components/signIn/signIn.component";
 import Register from "./components/register/register.component";
 
 import { useState, useEffect } from "react";
+import app from "../src/firebase/firebase.utils";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useAuth } from "../src/firebase/firebase.utils";
 
 function App() {
   const [input, setInput] = useState("");
@@ -17,23 +20,10 @@ function App() {
 
   const [homeRoute, setHomeRoute] = useState("signin");
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const currentUser = useAuth();
 
   const onInputChange = (e) => {
     setInput(e.target.value);
-  };
-
-  const onSubmit = () => {
-    setImageURL(input);
-    fetch(
-      "https://api.clarifai.com/v2/models/face-detection/outputs",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => {
-        calculateFaceLocation(JSON.parse(result, null, 2).outputs[0].data);
-      })
-
-      .catch((error) => console.log("error", error));
   };
 
   useEffect(() => {
@@ -49,19 +39,19 @@ function App() {
 
   return (
     <div className="App">
-      <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
-      {homeRoute === "home" ? (
+      <Navigation currentUser={currentUser} onRouteChange={onRouteChange} />
+      {currentUser !== null ? (
         <div>
           <Logo />
           <Rank />
-          <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
+          <ImageLinkForm onInputChange={onInputChange} />
 
-          <FaceRecognition box={boxParams} imageURL={imageURL} />
+          <FaceRecognition imageURL={imageURL} />
         </div>
       ) : homeRoute === "signin" ? (
-        <SignIn onRouteChange={onRouteChange} />
+        <SignIn onRouteChange={onRouteChange} currentUser={currentUser} />
       ) : (
-        <Register onRouteChange={onRouteChange} />
+        <Register onRouteChange={onRouteChange} currentUser={currentUser} />
       )}
     </div>
   );

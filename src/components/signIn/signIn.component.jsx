@@ -1,6 +1,24 @@
 import React from "react";
 import "./signIn.styles.scss";
+
+import { useState, useRef } from "react";
+import { signIn } from "../../firebase/firebase.utils";
+// import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 const SignIn = ({ onRouteChange }) => {
+  const [loading, setLoading] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  function handleSignIn(event) {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      signIn(emailRef.current.value, passwordRef.current.value);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  }
   return (
     <div className="br3 ba  b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
       <main className="pa4 black-80">
@@ -14,8 +32,9 @@ const SignIn = ({ onRouteChange }) => {
               <input
                 className="pa2 br2  input-reset ba b--black bg-transparent hover-bg-black hover-white w-100"
                 type="email"
-                name="email-address"
+                name="email"
                 id="email-address"
+                ref={emailRef}
               />
             </div>
             <div className="mv3">
@@ -27,6 +46,7 @@ const SignIn = ({ onRouteChange }) => {
                 type="password"
                 name="password"
                 id="password"
+                ref={passwordRef}
               />
             </div>
             <label className="pa0 ma0 lh-copy  pointer">
@@ -35,11 +55,16 @@ const SignIn = ({ onRouteChange }) => {
           </fieldset>
           <div className="">
             <input
-              onClick={() => onRouteChange("home")}
               className="b br2  ph3 pv2 input-reset ba b--black bg-transparent grow pointer  dib"
               type="submit"
               value="Sign in"
+              onClick={handleSignIn}
             />
+          </div>
+          <div>
+            <button
+            //  onClick={signInWithGoogle}
+            ></button>
           </div>
           <div className="lh-copy mt3">
             <p

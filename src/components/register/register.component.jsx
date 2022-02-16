@@ -1,6 +1,32 @@
 import React from "react";
 import "./register.styles.scss";
-const Register = ({ onRouteChange }) => {
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { useState, useRef } from "react";
+import { signUp } from "../../firebase/firebase.utils";
+const Register = ({ onRouteChange, currentUser }) => {
+  const [loading, setLoading] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const nameRef = useRef();
+  async function handleSignUp(e) {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await signUp(
+        nameRef.current.value,
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+    } catch {
+      alert("Error!");
+    }
+    setLoading(false);
+  }
+
   return (
     <div className="br3 ba  b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
       <main className="pa4 black-80">
@@ -16,6 +42,7 @@ const Register = ({ onRouteChange }) => {
                 type="text"
                 name="name"
                 id="name"
+                ref={nameRef}
               />
             </div>
             <div className="mt3">
@@ -27,6 +54,7 @@ const Register = ({ onRouteChange }) => {
                 type="email"
                 name="email-address"
                 id="email-address"
+                ref={emailRef}
               />
             </div>
             <div className="mt3">
@@ -38,15 +66,17 @@ const Register = ({ onRouteChange }) => {
                 type="password"
                 name="password"
                 id="password"
+                ref={passwordRef}
               />
             </div>
           </fieldset>
           <div className="mt3">
             <input
-              onClick={() => onRouteChange("home")}
+              onClick={handleSignUp}
               className="b br2  ph3 pv2 input-reset ba b--black bg-transparent grow pointer  dib"
               type="submit"
               value="Register"
+              disabled={loading || currentUser}
             />
           </div>
           <div className="lh-copy mt3"></div>
