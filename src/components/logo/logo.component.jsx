@@ -5,7 +5,7 @@ import logo from "./logo.png";
 
 const Logo = () => {
   return (
-    <div className="ma5 mt0">
+    <div className="mh5 mv4 mt0">
       <Tilt
         className="Tilt parallax-effect br2 shadow-2"
         perspective={500}

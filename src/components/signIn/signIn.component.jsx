@@ -49,9 +49,9 @@ const SignIn = ({ onRouteChange }) => {
                 ref={passwordRef}
               />
             </div>
-            <label className="pa0 ma0 lh-copy  pointer">
+            {/* <label className="pa0 ma0 lh-copy  pointer">
               <input type="checkbox" /> Remember me
-            </label>
+            </label> */}
           </fieldset>
           <div className="">
             <input
@@ -61,11 +61,11 @@ const SignIn = ({ onRouteChange }) => {
               onClick={handleSignIn}
             />
           </div>
-          <div>
+          {/* <div>
             <button
-            //  onClick={signInWithGoogle}
+             onClick={signInWithGoogle}
             ></button>
-          </div>
+          </div> */}
           <div className="lh-copy mt3">
             <p
               onClick={() => onRouteChange("register")}

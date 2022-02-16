@@ -4,9 +4,10 @@ import "./imageLinkForm.styles.scss";
 const ImageLinkForm = ({ onInputChange, onSubmit }) => {
   return (
     <div>
-      <p className="f3 tc"></p>
+      <p className="f3 tc">
+        This Magic Science will detect faces in your pictures. Give it a try
+      </p>
       <div className="centered">
-        {/* <img src={metro}></img> */}
         <div className="form flex pa4 br3 shadow-5">
           <input
             onChange={onInputChange}

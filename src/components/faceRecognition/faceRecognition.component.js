@@ -1,6 +1,7 @@
 import React from "react";
 import "./faceRecognition.styles.scss";
-const FaceRecognition = ({ imageURL }) => {
+import uniqid from "uniqid";
+const FaceRecognition = ({ imageURL, boxsArr }) => {
   return (
     <div className="center ma">
       <div className="absolute mt2">
@@ -11,7 +12,16 @@ const FaceRecognition = ({ imageURL }) => {
           width="500px"
           height="auto"
         />
-        <div className="bounding-box "></div>
+        {boxsArr.map(({ topRow, leftCol, bottomRow, rightCol }) => {
+          const insetParams = `${topRow}% ${rightCol}% ${bottomRow}% ${leftCol}%`;
+          return (
+            <div
+              key={uniqid()}
+              className="bounding-box"
+              style={{ inset: insetParams }}
+            ></div>
+          );
+        })}
       </div>
     </div>
   );
