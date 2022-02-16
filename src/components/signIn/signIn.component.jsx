@@ -14,8 +14,8 @@ const SignIn = ({ onRouteChange }) => {
     setLoading(true);
     try {
       signIn(emailRef.current.value, passwordRef.current.value);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      alert(err);
     }
     setLoading(false);
   }

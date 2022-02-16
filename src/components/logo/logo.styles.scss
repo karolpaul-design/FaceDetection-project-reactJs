@@ -1,5 +1,5 @@
 .Tilt{ 
-    background: linear-gradient(to right, rgb(0, 255, 255), rgb(245, 5, 201));
+    background: linear-gradient(to right, rgb(115, 204, 194), rgb(244, 236, 245));
     width:150px;
     height: 150px;
     display: flex;
@@ -9,3 +9,11 @@
 .logo-img{
     padding-top: 5px;
 }
+@media screen and (max-width: 850px) {
+    .Tilt{ 
+       
+        width:100px;
+        height: 100px;
+
+    }
+  } 

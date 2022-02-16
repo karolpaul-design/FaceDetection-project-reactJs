@@ -1,10 +1,6 @@
 import React from "react";
 import "./register.styles.scss";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+
 import { useState, useRef } from "react";
 import { signUp } from "../../firebase/firebase.utils";
 const Register = ({ onRouteChange, currentUser }) => {
@@ -21,8 +17,8 @@ const Register = ({ onRouteChange, currentUser }) => {
         emailRef.current.value,
         passwordRef.current.value
       );
-    } catch {
-      alert("Error!");
+    } catch (err) {
+      alert(err);
     }
     setLoading(false);
   }

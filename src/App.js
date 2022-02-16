@@ -1,18 +1,24 @@
 import React from "react";
+
+import { useState, useEffect } from "react";
 import "./App.css";
+
 import Navigation from "./components/navigation/navigation.component";
 import Logo from "./components/logo/logo.component";
 import Rank from "./components/rank/rank.component";
 import ImageLinkForm from "./components/imageLinkForm/imageLinkForm.component";
 import FaceRecognition from "./components/faceRecognition/faceRecognition.component";
-
 import SignIn from "./components/signIn/signIn.component";
 import Register from "./components/register/register.component";
 
-import { useState, useEffect } from "react";
-import app from "../src/firebase/firebase.utils";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "../src/firebase/firebase.utils";
+
+import Particles from "react-tsparticles";
+import {
+  particlesInit,
+  particlesOptions,
+  particlesLoaded,
+} from "./assets/particles/particles.options";
 
 function App() {
   const [input, setInput] = useState("");
@@ -20,6 +26,8 @@ function App() {
   const [boxParams, setBoxParams] = useState([]);
   const [homeRoute, setHomeRoute] = useState("signin");
   const [isSignedIn, setIsSignedIn] = useState(false);
+
+  //Firebase
   const currentUser = useAuth();
   //Clarifai
   const raw = JSON.stringify({
@@ -45,7 +53,6 @@ function App() {
     },
     body: raw,
   };
-
   const calculateFaceLocation = (data) => {
     let result = [];
 
@@ -66,7 +73,7 @@ function App() {
     });
     setBoxParams(result);
   };
-
+  //Events
   const onSubmit = () => {
     setImageURL(input);
     setBoxParams([]);
@@ -101,11 +108,17 @@ function App() {
 
   return (
     <div className="App">
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={particlesOptions}
+      />
       <Navigation currentUser={currentUser} onRouteChange={onRouteChange} />
       {currentUser !== null ? (
         <div>
           <Logo />
-          <Rank />
+          <Rank name={currentUser} />
           <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
 
           <FaceRecognition boxsArr={boxParams} imageURL={imageURL} />

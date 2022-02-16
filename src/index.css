@@ -10,7 +10,11 @@ body {
 
 
 }
-
+@media screen and (max-width: 850px) {
+  body {
+  font-size: 1.4rem;
+  margin: 10px;}
+} 
 button{
   cursor: pointer;
 }
