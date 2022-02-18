@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-clarifai--api-porject/static/css/main.f537e74d.css",
+    "main.js": "/react-clarifai--api-porject/static/js/main.28ec0c7c.js",
+    "static/js/787.3d89efb7.chunk.js": "/react-clarifai--api-porject/static/js/787.3d89efb7.chunk.js",
+    "index.html": "/react-clarifai--api-porject/index.html",
+    "main.f537e74d.css.map": "/react-clarifai--api-porject/static/css/main.f537e74d.css.map",
+    "main.28ec0c7c.js.map": "/react-clarifai--api-porject/static/js/main.28ec0c7c.js.map",
+    "787.3d89efb7.chunk.js.map": "/react-clarifai--api-porject/static/js/787.3d89efb7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f537e74d.css",
+    "static/js/main.28ec0c7c.js"
+  ]
+}
