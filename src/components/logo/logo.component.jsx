@@ -6,16 +6,9 @@ import logo from "./logo.png";
 const Logo = () => {
   return (
     <div className="mh5 mv4 mt0">
-      <Tilt
-        className="Tilt parallax-effect br2 shadow-2"
-        perspective={500}
-        glareEnable={true}
-        glareMaxOpacity={0.3}
-        glareColor="lightblue"
-        glarePosition="all"
-      >
+      <div className="Tilt parallax-effect br2 shadow-2">
         <img className="logo-img" alt="logo" src={logo} />
-      </Tilt>
+      </div>
     </div>
   );
 };
