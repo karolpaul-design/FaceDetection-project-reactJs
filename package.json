@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://karolpaul-design.github.io/react-clarifai--api-porject/",
+  "homepage":" https://karolpaul-design.github.io/FaceDetection-project-reactJs/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
     "@testing-library/jest-dom": "^4.2.4",
