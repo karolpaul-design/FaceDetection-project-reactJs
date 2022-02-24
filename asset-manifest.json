@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-clarifai--api-porject/static/css/main.c7eea9c0.css",
-    "main.js": "/react-clarifai--api-porject/static/js/main.d30e0b29.js",
-    "static/js/787.3d89efb7.chunk.js": "/react-clarifai--api-porject/static/js/787.3d89efb7.chunk.js",
-    "index.html": "/react-clarifai--api-porject/index.html",
-    "main.c7eea9c0.css.map": "/react-clarifai--api-porject/static/css/main.c7eea9c0.css.map",
-    "main.d30e0b29.js.map": "/react-clarifai--api-porject/static/js/main.d30e0b29.js.map",
-    "787.3d89efb7.chunk.js.map": "/react-clarifai--api-porject/static/js/787.3d89efb7.chunk.js.map"
+    "main.css": "/FaceDetection-project-reactJs/static/css/main.c7eea9c0.css",
+    "main.js": "/FaceDetection-project-reactJs/static/js/main.d874fd21.js",
+    "static/js/787.3d89efb7.chunk.js": "/FaceDetection-project-reactJs/static/js/787.3d89efb7.chunk.js",
+    "index.html": "/FaceDetection-project-reactJs/index.html",
+    "main.c7eea9c0.css.map": "/FaceDetection-project-reactJs/static/css/main.c7eea9c0.css.map",
+    "main.d874fd21.js.map": "/FaceDetection-project-reactJs/static/js/main.d874fd21.js.map",
+    "787.3d89efb7.chunk.js.map": "/FaceDetection-project-reactJs/static/js/787.3d89efb7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c7eea9c0.css",
-    "static/js/main.d30e0b29.js"
+    "static/js/main.d874fd21.js"
   ]
 }
