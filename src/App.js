@@ -10,9 +10,8 @@ import ImageLinkForm from "./components/imageLinkForm/imageLinkForm.component";
 import FaceRecognition from "./components/faceRecognition/faceRecognition.component";
 import SignIn from "./components/signIn/signIn.component";
 import Register from "./components/register/register.component";
-
 import { useAuth } from "../src/firebase/firebase.utils";
-
+import { useRoute } from "./RouteContext";
 import Particles from "react-tsparticles";
 import {
   particlesInit,
@@ -20,16 +19,26 @@ import {
   particlesLoaded,
 } from "./assets/particles/particles.options";
 
+export const BoxParamsContext = React.createContext();
+
 function App() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [boxParams, setBoxParams] = useState([]);
-  const [homeRoute, setHomeRoute] = useState("signin");
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({
+    id: "",
+    name: "",
+    email: "",
+    entries: 0,
+    joined: "",
+  });
+  const homeRoute = useRoute();
 
   //Firebase
   const currentUser = useAuth();
   //Clarifai
+
   const raw = JSON.stringify({
     user_app_id: {
       user_id: "nr0fr3ox7eo4",
@@ -45,6 +54,7 @@ function App() {
       },
     ],
   });
+
   const requestOptions = {
     method: "POST",
     headers: {
@@ -53,6 +63,7 @@ function App() {
     },
     body: raw,
   };
+
   const calculateFaceLocation = (data) => {
     let result = [];
 
@@ -60,9 +71,7 @@ function App() {
       (item) => item.region_info.bounding_box
     );
     const image = document.getElementById("inputImage");
-    const width = +image.width;
-    const height = +image.height;
-    console.log(width, height);
+
     clarifaiFacesArr.forEach((item) => {
       result.push({
         topRow: item.top_row * 100,
@@ -73,6 +82,7 @@ function App() {
     });
     setBoxParams(result);
   };
+
   //Events
   const onSubmit = () => {
     setImageURL(input);
@@ -83,25 +93,47 @@ function App() {
     )
       .then((response) => response.text())
       .then((result) => {
-        calculateFaceLocation(JSON.parse(result, null, 2).outputs[0].data);
-        console.log(JSON.parse(result, null, 2).outputs);
-      })
+        if (result) {
+          fetch("http://localhost:3000/image", {
+            method: "put",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              id: user.id,
+            }),
+          })
+            .then((response) => response.json())
+            .then((count) => {
+              setUser(Object.assign(user, { entries: count }));
 
+              calculateFaceLocation(
+                JSON.parse(result, null, 2).outputs[0].data
+              );
+            });
+        }
+      })
       .catch((error) => console.log("error", error));
   };
 
   const onInputChange = (e) => {
     setInput(e.target.value);
   };
-
-  const onRouteChange = (path) => {
-    setHomeRoute(path);
+  // const onRouteChange = (path) => {
+  //   setHomeRoute(path);
+  // };
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined,
+    });
   };
 
   useEffect(() => {
-    if (homeRoute === "signout") {
+    if (homeRoute !== "home") {
       setIsSignedIn(false);
-    } else if (homeRoute === "home") {
+    } else {
       setIsSignedIn(true);
     }
   }, [homeRoute]);
@@ -114,20 +146,22 @@ function App() {
         loaded={particlesLoaded}
         options={particlesOptions}
       />
-      <Navigation currentUser={currentUser} onRouteChange={onRouteChange} />
-      {currentUser !== null ? (
-        <div>
-          <Logo />
-          <Rank name={currentUser} />
-          <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
+      <Navigation currentUser={currentUser} isSignedIn={isSignedIn} />
 
-          <FaceRecognition boxsArr={boxParams} imageURL={imageURL} />
-        </div>
-      ) : homeRoute === "signin" ? (
-        <SignIn onRouteChange={onRouteChange} currentUser={currentUser} />
-      ) : (
-        <Register onRouteChange={onRouteChange} currentUser={currentUser} />
-      )}
+      <BoxParamsContext.Provider value={boxParams}>
+        {homeRoute === "home" ? (
+          <div>
+            <Logo />
+            <Rank name={user.name} entries={user.entries} />
+            <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
+            <FaceRecognition imageURL={imageURL} />
+          </div>
+        ) : homeRoute === "signin" ? (
+          <SignIn loadUser={loadUser} />
+        ) : (
+          <Register currentUser={currentUser} loadUser={loadUser} />
+        )}
+      </BoxParamsContext.Provider>
     </div>
   );
 }

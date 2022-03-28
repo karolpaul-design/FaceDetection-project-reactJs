@@ -1,7 +1,10 @@
 import React from "react";
 import "./faceRecognition.styles.scss";
+import { useContext } from "react";
 import uniqid from "uniqid";
-const FaceRecognition = ({ imageURL, boxsArr }) => {
+import { BoxParamsContext } from "../../App";
+const FaceRecognition = ({ imageURL }) => {
+  const boxsArr = useContext(BoxParamsContext);
   return (
     <div className="center ma">
       <div className="absolute mt2">

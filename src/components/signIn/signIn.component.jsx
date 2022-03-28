@@ -1,24 +1,53 @@
 import React from "react";
 import "./signIn.styles.scss";
-
+import { useRouteUpdate } from "../../RouteContext";
 import { useState, useRef } from "react";
-import { signIn } from "../../firebase/firebase.utils";
+// import { signIn } from "../../firebase/firebase.utils";
 // import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
-const SignIn = ({ onRouteChange }) => {
+const SignIn = ({ loadUser }) => {
   const [loading, setLoading] = useState(false);
+  const onRouteChange = useRouteUpdate();
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  function handleSignIn(event) {
+  // //Firebase Method
+  // function handleSubmitSignIn(event) {
+  //   event.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     signIn(emailRef.current.value, passwordRef.current.value);
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  //   setLoading(false);
+  // }
+
+  // //Using backend method
+  function handleSubmitSignIn(event) {
     event.preventDefault();
     setLoading(true);
-    try {
-      signIn(emailRef.current.value, passwordRef.current.value);
-    } catch (err) {
-      alert(err);
-    }
+
+    fetch("http://localhost:3000/signin", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      }),
+    })
+      .then((response) => response.json())
+      .then((user) => {
+        if (user.id) {
+          loadUser(user);
+          onRouteChange("home");
+        } else {
+          alert(user);
+        }
+      });
+
     setLoading(false);
   }
+
   return (
     <div className="br3 ba  b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
       <main className="pa4 black-80">
@@ -49,23 +78,15 @@ const SignIn = ({ onRouteChange }) => {
                 ref={passwordRef}
               />
             </div>
-            {/* <label className="pa0 ma0 lh-copy  pointer">
-              <input type="checkbox" /> Remember me
-            </label> */}
           </fieldset>
           <div className="">
             <input
               className="b br2  ph3 pv2 input-reset ba b--black bg-transparent grow pointer  dib"
               type="submit"
               value="Sign in"
-              onClick={handleSignIn}
+              onClick={handleSubmitSignIn}
             />
           </div>
-          {/* <div>
-            <button
-             onClick={signInWithGoogle}
-            ></button>
-          </div> */}
           <div className="lh-copy mt3">
             <p
               onClick={() => onRouteChange("register")}
@@ -74,9 +95,6 @@ const SignIn = ({ onRouteChange }) => {
             >
               Register
             </p>
-            {/* <a href="#0" className="f6 link dim black db">
-            Forgot your password?
-          </a> */}
           </div>
         </form>
       </main>

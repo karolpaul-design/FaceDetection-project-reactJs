@@ -1,19 +1,15 @@
 import React from "react";
 import "./navigation.styles.scss";
-import { logOut } from "../../firebase/firebase.utils";
-const Navigation = ({ onRouteChange, currentUser }) => {
-  async function handleLogOut() {
-    try {
-      await logOut();
-    } catch {
-      alert("Error!");
-    }
-  }
-  if (currentUser !== null) {
+// import { logOut } from "../../firebase/firebase.utils";
+import { useRouteUpdate } from "../../RouteContext";
+const Navigation = ({ isSignedIn }) => {
+  const onRouteChange = useRouteUpdate();
+
+  if (isSignedIn === true) {
     return (
       <nav>
         <p
-          onClick={handleLogOut}
+          onClick={() => onRouteChange("signin")}
           className="f3 link dim white underline pa3 pointer"
         >
           Sign Out

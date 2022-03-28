@@ -1,25 +1,58 @@
 import React from "react";
 import "./register.styles.scss";
-
+import { useRouteUpdate } from "../../RouteContext";
 import { useState, useRef } from "react";
-import { signUp } from "../../firebase/firebase.utils";
-const Register = ({ onRouteChange, currentUser }) => {
+// import { signUp } from "../../firebase/firebase.utils";
+const Register = ({ currentUser, loadUser }) => {
   const [loading, setLoading] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
+  const onRouteChange = useRouteUpdate();
+  // //Firebase Method
+  // async function handleSignUp(e) {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     await signUp(
+  //       nameRef.current.value,
+  //       emailRef.current.value,
+  //       passwordRef.current.value
+  //     );
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  //   setLoading(false);
+  // }
+
+  // //Using backend method
   async function handleSignUp(e) {
     e.preventDefault();
     setLoading(true);
-    try {
-      await signUp(
-        nameRef.current.value,
-        emailRef.current.value,
-        passwordRef.current.value
-      );
-    } catch (err) {
-      alert(err);
+
+    if (passwordRef.current.value.length >= 6) {
+      fetch("http://localhost:3000/register", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          name: nameRef.current.value,
+        }),
+      })
+        .then((response) => response.json())
+        .then((user) => {
+          if (user.id) {
+            loadUser(user);
+            onRouteChange("home");
+          } else {
+            alert(user);
+          }
+        });
+    } else {
+      alert("password must contain at least 6 characters");
     }
+
     setLoading(false);
   }
 

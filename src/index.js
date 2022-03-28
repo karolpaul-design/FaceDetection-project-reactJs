@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { store } from "./app/store";
-import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import "tachyons";
-
+import { RouteProvider } from "./RouteContext";
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RouteProvider>
+      <App />
+    </RouteProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
