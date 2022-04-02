@@ -117,9 +117,7 @@ function App() {
   const onInputChange = (e) => {
     setInput(e.target.value);
   };
-  // const onRouteChange = (path) => {
-  //   setHomeRoute(path);
-  // };
+
   const loadUser = (data) => {
     setUser({
       id: data.id,
@@ -133,6 +131,8 @@ function App() {
   useEffect(() => {
     if (homeRoute !== "home") {
       setIsSignedIn(false);
+      setImageURL("");
+      setBoxParams([]);
     } else {
       setIsSignedIn(true);
     }

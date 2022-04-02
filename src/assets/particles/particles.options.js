@@ -1,8 +1,8 @@
 export const particlesInit = (main) => {
-  console.log(main);
+  // console.log(main);
 };
 export const particlesLoaded = (container) => {
-  console.log(container);
+  // console.log(container);
 };
 export const particlesOptions = {
   fpsLimit: 120,
